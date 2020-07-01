@@ -4,7 +4,8 @@ import random
 from app import app, db
 from app.models import User, Quote
 
-token = app.config.get('DISCORD_TOKEN')
+token = app.config['DISCORD_TOKEN']
+shit_pants_percent = app.config['SHIT_PANTS_PERCENT']
 print(token)
 client = discord.Client()
 
@@ -43,15 +44,16 @@ async def on_message(message: discord.message):
         return
     # if there are no mentions, get a quote
     quote = random.choice(Quote.query.all())
-    should_add_shit_pants_quote = False
+    should_add_shit_pants_quote = random.randint(0, 100) <= shit_pants_percent
     author = await client.fetch_user(quote.user_id)
-    message_to_send = '''
+    message_to_send = quote.body + ' and then I shit my only pair of pants. I swear to god I did.' if should_add_shit_pants_quote else quote.body
+    formatted_message = '''
 ```
-''' + quote.body + '''
+''' + message_to_send + '''
 - @''' + author.name + '''
 ```
 '''
-    await message.channel.send(message_to_send)
+    await message.channel.send(formatted_message)
 
 
 if token is not None:

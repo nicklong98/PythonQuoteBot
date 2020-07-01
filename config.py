@@ -8,3 +8,4 @@ class Config(object):
     DISCORD_TOKEN = os.environ.get('DISCORD_TOKEN') or None
     SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or 'sqlite:///' + os.path.join(basedir, 'app.db')
     SQLALCHEMY_TRACK_MODIFICATIONS = False
+    SHIT_PANTS_PERCENT = int(os.environ.get('SHIT_PANTS_PERCENT') or 10)
